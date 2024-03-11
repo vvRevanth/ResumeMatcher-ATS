@@ -65,7 +65,7 @@ I want the response in one single string having the structure
 
 ## Streamlit app
 st.title("Resume Matcher ATS")
-st.markdown("Made by 😎 [Hardik](https://www.linkedin.com/in/hardikjp/)")
+
 jd = st.text_area("Paste the Job Description")
 uploaded_file = st.file_uploader("Upload Your Resume", type="pdf", help="Please upload the PDF")
 
