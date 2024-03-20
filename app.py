@@ -5,6 +5,8 @@ import PyPDF2 as pdf
 from dotenv import load_dotenv
 import json
 import pandas as pd
+import requests
+from io import StringIO
 
 # Load environment variables
 load_dotenv()
@@ -70,7 +72,10 @@ st.title("Resume Matcher ATS")
 # Load job postings data
 @st.cache
 def load_job_postings():
-    job_postings = pd.read_csv("https://raw.githubusercontent.com/vvRevanth/ResumeMatcher-ATS/main/jobp.csv")
+    url = "https://raw.githubusercontent.com/vvRevanth/ResumeMatcher-ATS/main/jobp.csv"
+    response = requests.get(url)
+    csv_data = StringIO(response.text)
+    job_postings = pd.read_csv(csv_data)
     return job_postings
 
 job_postings = load_job_postings()
@@ -88,7 +93,6 @@ if submit:
         parsed_response = json.loads(response)
         for key, value in parsed_response.items():
             st.write(f"**{key}:** {value}")
-
 
 
 
