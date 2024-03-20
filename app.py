@@ -10,7 +10,7 @@ import pandas as pd
 load_dotenv()
 
 # Load job postings data
-job_postings = pd.read_csv("jobp.csv")  # Adjust the file path accordingly
+job_postings = pd.read_csv("https://github.com/vvRevanth/ResumeMatcher-ATS/blob/main/jobp.csv")  # Adjust the file path accordingly
 
 # Configure Streamlit page settings
 st.set_page_config(
