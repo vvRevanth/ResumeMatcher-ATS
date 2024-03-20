@@ -9,9 +9,6 @@ import pandas as pd
 # Load environment variables
 load_dotenv()
 
-# Load job postings data
-job_postings = pd.read_csv("https://github.com/vvRevanth/ResumeMatcher-ATS/blob/main/jobp.csv")  # Adjust the file path accordingly
-
 # Configure Streamlit page settings
 st.set_page_config(
     page_title="Smart ATS",
@@ -19,12 +16,11 @@ st.set_page_config(
     layout="centered",
 )
 
-# Sidebar to input Google API Key and select job titles
+# Sidebar to input Google API Key
 st.sidebar.title("Smart ATS Configuration")
 API_KEY = st.sidebar.text_input("Enter your Google API Key", type="password")
 st.sidebar.subheader("Don't have a Google API Key?")
 st.sidebar.write("Visit [Google Makersuite](https://makersuite.google.com/app/apikey) and log in with your Google account. Then click on 'Create API Key'.")
-selected_job_titles = st.sidebar.multiselect("Selected Job Titles", job_postings['title'].unique())
 
 # Check if API key is provided
 if not API_KEY:
@@ -71,7 +67,10 @@ I want the response in one single string having the structure
 ## Streamlit app
 st.title("Resume Matcher ATS")
 
-skills = st.multiselect("Select Skills Required for the Job", ["Tech Field", "Software Engineering", "Data Science", "Data Analyst", "Big Data Engineering"])
+# Load job postings data
+job_postings = pd.read_csv("jobp.csv")  # Assuming jobp.csv is in the same directory as the script
+
+skills = st.multiselect("Select Skills Required for the Job", job_postings['title'].unique())
 uploaded_file = st.file_uploader("Upload Your Resume", type="pdf", help="Please upload the PDF")
 
 submit = st.button("Submit")
@@ -84,6 +83,7 @@ if submit:
         parsed_response = json.loads(response)
         for key, value in parsed_response.items():
             st.write(f"**{key}:** {value}")
+
 
 
 
