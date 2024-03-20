@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 import json
 import pandas as pd
 import requests
-from io import StringIO
 
 # Load environment variables
 load_dotenv()
@@ -69,13 +68,19 @@ I want the response in one single string having the structure
 ## Streamlit app
 st.title("Resume Matcher ATS")
 
+# Download job postings data
+@st.cache
+def download_job_postings():
+    url = "https://raw.githubusercontent.com/vvRevanth/ResumeMatcher-ATS/main/jobp.csv"
+    response = requests.get(url)
+    with open("jobp.csv", "wb") as f:
+        f.write(response.content)
+
 # Load job postings data
 @st.cache
 def load_job_postings():
-    url = "https://raw.githubusercontent.com/vvRevanth/ResumeMatcher-ATS/main/jobp.csv"
-    response = requests.get(url)
-    csv_data = StringIO(response.text)
-    job_postings = pd.read_csv(csv_data)
+    download_job_postings()
+    job_postings = pd.read_csv("jobp.csv")
     return job_postings
 
 job_postings = load_job_postings()
