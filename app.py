@@ -68,7 +68,12 @@ I want the response in one single string having the structure
 st.title("Resume Matcher ATS")
 
 # Load job postings data
-job_postings = pd.read_csv("jobp.csv")  # Assuming jobp.csv is in the same directory as the script
+@st.cache
+def load_job_postings():
+    job_postings = pd.read_csv("https://raw.githubusercontent.com/vvRevanth/ResumeMatcher-ATS/main/jobp.csv")
+    return job_postings
+
+job_postings = load_job_postings()
 
 skills = st.multiselect("Select Skills Required for the Job", job_postings['title'].unique())
 uploaded_file = st.file_uploader("Upload Your Resume", type="pdf", help="Please upload the PDF")
