@@ -73,10 +73,10 @@ def input_pdf_text(uploaded_file):
 # Streamlit app
 st.title("Resume Matcher ATS")
 
-job_postings = load_job_postings()
-if 'title' not in job_postings.columns:
-    st.error("Job postings data does not contain the 'title' column.")
-    st.stop()
+#job_postings = load_job_postings()
+#if 'title' not in job_postings.columns:
+ #   st.error("Job postings data does not contain the 'title' column.")
+  #  st.stop()
 
 # Filter job titles
 #wsearch_query = st.multiselect("Search Job Titles", job_postings['title'].unique())
