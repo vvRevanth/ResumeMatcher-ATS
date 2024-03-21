@@ -5,7 +5,7 @@ st.set_page_config(layout="wide")
 st.title("CV checking")
 
 # Main Banner
-st.video("video.mp4")
+#st.video("video.mp4")
 st.write("""
     # Unlock more interview opportunities by optimizing your resume with Career Nest
     ## Find your dream Career
