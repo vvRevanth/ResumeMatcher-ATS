@@ -71,7 +71,7 @@ def input_pdf_text(uploaded_file):
   #  return job_postings
 
 # Streamlit app
-st.title("Resume Matcher ATS")
+#st.title("Resume Matcher ATS")
 
 #job_postings = load_job_postings()
 #if 'title' not in job_postings.columns:
