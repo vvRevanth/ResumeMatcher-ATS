@@ -66,9 +66,9 @@ def input_pdf_text(uploaded_file):
 
 # Load job postings data
 @st.cache_data
-def load_job_postings():
-    job_postings = pd.read_csv('https://github.com/vvRevanth/ResumeMatcher-ATS/blob/main/jobp.csv')
-    return job_postings
+#def load_job_postings():
+ #   job_postings = pd.read_csv('https://github.com/vvRevanth/ResumeMatcher-ATS/blob/main/jobp.csv')
+  #  return job_postings
 
 # Streamlit app
 st.title("Resume Matcher ATS")
