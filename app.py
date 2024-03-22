@@ -29,7 +29,7 @@ def input_pdf_text(uploaded_file):
 # Load job postings data
 @st.cache_data
 def load_job_postings():
-    job_postings = pd.read_csv('job_postings.csv')
+    job_postings = pd.read_csv('jobp.csv')
     return job_postings
 
 # Streamlit app
