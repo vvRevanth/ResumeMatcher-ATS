@@ -1,4 +1,3 @@
-
 import streamlit as st
 import google.generativeai as genai
 import PyPDF2 as pdf
@@ -87,20 +86,6 @@ if submit:
         parsed_response = json.loads(response)
         for key, value in parsed_response.items():
             st.write(f"**{key}:** {value}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
