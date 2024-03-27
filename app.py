@@ -1,81 +1,69 @@
+
+
 import streamlit as st
 import google.generativeai as genai
 import PyPDF2 as pdf
 import json
+import pandas as pd
 
 # Define your Google API Key
 API_KEY = "AIzaSyD2oLQHkz9sYQvKZN6VaZ7ZI2t2N79wefQ"
 
 # Function to configure Gemini AI model with the provided API key
 def configure_gemini_api(api_key):
-  genai.configure(api_key=api_key)
+    genai.configure(api_key=api_key)
 
 # Function to get response from Gemini AI
 def get_gemini_response(input):
-  model = genai.GenerativeModel('gemini-pro')
-  response = model.generate_content(input)
-  return response.text
+    model = genai.GenerativeModel('gemini-pro')
+    response = model.generate_content(input)
+    return response.text
 
 # Function to extract text from uploaded PDF file
 def input_pdf_text(uploaded_file):
-  reader = pdf.PdfReader(uploaded_file)
-  text = ""
-  for page in range(len(reader.pages)):
-    page = reader.pages[page]
-    text += str(page.extract_text())
-  return text
+    reader = pdf.PdfReader(uploaded_file)
+    text = ""
+    for page in range(len(reader.pages)):
+        page = reader.pages[page]
+        text += str(page.extract_text())
+    return text
 
-# Streamlit app
-st.title("Resume Matcher ATS")
-
-# Pre-defined job titles (replace with your actual titles)
-job_titles = ["Software Engineer", "Data Scientist", "Data Analyst"]
-
-# User selection for job description source
-description_source = st.radio("Select Job Description Source:", ("Pre-defined Titles", "Enter Manually"))
-
-# Multiselect for pre-defined job titles
-selected_job_titles = st.multiselect("Select Job Titles (optional)", job_titles, default=None)
-
-# Manual input for job description
+description_source = st.radio("Select Job Description Source:", ("From CSV File", "Enter Manually"))
+selected_job_title = None
 jd = None
-if description_source == "Enter Manually":
-  jd = st.text_area("Enter Job Description:")
+
+description_source == "Enter Manually":
+jd = st.text_area("Enter Job Description:")
+
+# Show job description for the first selected job title
+#selected_job_title = selected_job_titles[0]
+#jd = job_postings[job_postings['title'] == selected_job_title]['description'].values[0]
 
 uploaded_file = st.file_uploader("Upload Your Resume", type="pdf", help="Please upload the PDF")
 submit = st.button("Submit")
 
 if submit:
-  if uploaded_file is not None:
-      text = input_pdf_text(uploaded_file)
-
-      # Use the first selected job title if multiselect is used
-      if selected_job_titles:
-          jd = job_titles[selected_job_titles[0]]
-
-      if jd:  # Use either pre-selected or manually entered job description
-          input_prompt = f"""
-          Hey Act Like a skilled or very experienced ATS (Application Tracking System)
-          with a deep understanding of the tech field, software engineering, data science, data analyst
-          and big data engineering. Your task is to evaluate the resume based on the given job description.
-          You must consider the job market is very competitive and you should provide the 
-          best assistance for improving the resumes. Assign the percentage Matching based 
-          on JD and the missing keywords with high accuracy.
-          resume:{text}
-          description:{jd}
-           
-          I want the response in one single string having the structure
-          {{"JD Match":"%","MissingKeywords":[],"Profile Summary":""}}
-          """
-          configure_gemini_api(API_KEY)
-          response = get_gemini_response(input_prompt)
-          st.subheader("Response:")
-          parsed_response = json.loads(response)
-          for key, value in parsed_response.items():
-              st.write(f"**{key}:** {value}")
-      else:
-          st.error("Please select job titles or enter a job description.")
-
+    if uploaded_file is not None:
+        text = input_pdf_text(uploaded_file)
+        input_prompt = f"""
+        Hey Act Like a skilled or very experienced ATS (Application Tracking System)
+        with a deep understanding of the tech field, software engineering, data science, data analyst
+        and big data engineering. Your task is to evaluate the resume based on the given job description.
+        You must consider the job market is very competitive and you should provide the 
+        best assistance for improving the resumes. Assign the percentage Matching based 
+        on JD and the missing keywords with high accuracy.
+        resume:{text}
+        description:{jd}
+        
+        I want the response in one single string having the structure
+        {{"JD Match":"%","MissingKeywords":[],"Profile Summary":""}}
+        """
+        configure_gemini_api(API_KEY)
+        response = get_gemini_response(input_prompt)
+        st.subheader("Response:")
+        parsed_response = json.loads(response)
+        for key, value in parsed_response.items():
+            st.write(f"**{key}:** {value}")
 
 
 
