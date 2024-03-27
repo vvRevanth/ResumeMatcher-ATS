@@ -32,7 +32,7 @@ description_source = st.radio("Select Job Description Source:", ("From CSV File"
 selected_job_title = None
 jd = None
 
-description_source == "Enter Manually":
+description_source == "Enter Manually"
 jd = st.text_area("Enter Job Description:")
 
 # Show job description for the first selected job title
