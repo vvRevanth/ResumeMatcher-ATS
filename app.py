@@ -5,7 +5,7 @@ import pandas as pd
 import google.generativeai as genai
 import PyPDF2 as pdf
 import json
-from pydataset import data
+
 
 # Define your Google API Key
 API_KEY = "AIzaSyD2oLQHkz9sYQvKZN6VaZ7ZI2t2N79wefQ"
